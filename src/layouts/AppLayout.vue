@@ -17,11 +17,9 @@
 
         <q-space/>
 
-        <q-btn
-          flat
-          dense
-          icon="person"
-        />
+        <UserButton 
+          :user="currentUser"
+          :loading="userLoading"/>
       </q-toolbar>
     </q-header>
     <q-drawer
@@ -71,9 +69,10 @@
 </template>
 
 <script setup>
-  import { ref, computed, onMounted, provide } from 'vue'
-  import useCurrentUser from 'src/serv/currentUser'
-  import Loading from 'components/Loading.vue'
+  import { ref, computed, onMounted, provide } from 'vue';
+  import useCurrentUser from 'src/serv/currentUser';
+  import Loading from 'components/Loading.vue';
+  import UserButton from 'components/UserButton.vue';
 
   const leftDrawerOpen = ref(false)
   const {

@@ -10,7 +10,8 @@ const routes = [
 
   { path: '/auth', component: () => import('layouts/LandingLayout.vue'),
     children: [
-      { path: 'login', component: () => import('pages/auth/Login.vue') }
+      { path: 'login', component: () => import('pages/auth/Login.vue') },
+      { path: 'signup', component: () => import('pages/auth/Signup.vue') }
     ]},
 
   { path: '/app', component: () => import('layouts/AppLayout.vue'),

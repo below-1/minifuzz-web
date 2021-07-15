@@ -1,6 +1,11 @@
 import { ref } from 'vue'
 import { api } from 'boot/axios'
 
+export function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+}
+
 export default function () {
   const currentUser = ref({
     username: 'username',
