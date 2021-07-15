@@ -26,8 +26,9 @@
   import Quiz from './Quiz.vue';
   import QuizResult from './Result.vue'
   import useFuzzy from 'src/serv/fuzz/fuzz';
+  import { createSessionAPI } from 'src/serv/session/create';
 
-  const comp = ref('loading')
+  const comp = ref('loading');
 
   function onRepeat() {
     localStorage.removeItem('fuzz.results')
@@ -50,9 +51,22 @@
       payload.procrastination,
       payload.gamingCost
     ]
-    const results = run(input)
-    localStorage.setItem('fuzz.results', JSON.stringify(results))
-    comp.value = 'quiz-result'
+    const results = run(input);
+    localStorage.setItem('fuzz.results', JSON.stringify(results));
+    comp.value = 'quiz-result';
+    saveSession(payload, results);
+  }
+
+  function saveSession(payload, results) {
+    const completePayload = {
+      ...payload,
+      outputs: results
+    }
+    return createSessionAPI(completePayload)
+      .catch(err => {
+        console.log(err);
+        alert('gagal menyimpan data sesi');
+      })
   }
 
   onMounted(() => {
