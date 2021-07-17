@@ -63,6 +63,8 @@ export default function (questions, answers) {
         })
       })
     const answerIndex = parseInt(item.consequence)
+    console.log('answerIndex')
+    console.log(answerIndex)
     item.formattedAnswer = answers[answerIndex]
     item.formattedPredicates = formattedPredicates
     item.colors = colors

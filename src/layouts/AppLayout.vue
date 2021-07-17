@@ -1,8 +1,8 @@
 <template>
   <Loading v-if="userLoading" />
-  <q-layout v-else view="hHh lpr lff">
-    <q-header>
-      <q-toolbar class="bg-dark text-white">
+  <q-layout v-else view="hHh Lpr lff">
+    <q-header elevated class="bg-white text-grey-9">
+      <q-toolbar>
         <q-btn
           flat
           dense
@@ -56,9 +56,9 @@
     </q-drawer>
     <q-footer>
       <q-toolbar class="bg-grey-2 text-grey-9">
-        <span class="text-overline text-center q-px-md" style="line-height: 120%;">
+        <div class="text-overline text-center q-px-md" style="line-height: 120%;">
           &copy; 2021 Mini-Fuzz, created by Inggris Clesia Clesia Ambesa
-        </span>
+        </div>
       </q-toolbar>
     </q-footer>
     <q-page-container>

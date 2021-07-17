@@ -9,17 +9,19 @@
       <p class="text-h5 text-weight-bold">Daftar Sesi</p>
     </div>
 
-    <div v-if="!loading">
-      <q-list separator flat>
-        <template v-for="session in items" :key="session._id">
-          <!-- <div>{{ session.start }}</div> -->
-          <SessionListItem
-            :id="session._id"
-            :start="session.start"
-            :end="session.end"
-            :outputs="session.outputs"/>
-        </template>
-      </q-list>
+    <div v-if="!loading" class="row flex-center q-my-md">
+      <div class="col-md-8 col-sm-12">
+        <q-list separator flat>
+          <template v-for="session in items" :key="session._id">
+            <!-- <div>{{ session.start }}</div> -->
+            <SessionListItem
+              :id="session._id"
+              :start="session.start"
+              :end="session.end"
+              :outputs="session.outputs"/>
+          </template>
+        </q-list>
+      </div>
     </div>
 
   </q-page>

@@ -1,14 +1,8 @@
 <template>
   <q-page>
-    <div class="bg-indigo-7 text-white column items-center q-pa-md text-center">
-      <q-avatar 
-        color="indigo-5"
-        text-color="white"
-        size="5rem"
-        icon="receipt_long" />
-      <p class="text-h5 text-weight-bold">Hasil Quiz</p>
-      <p class="text-body">Hai, {{ currentUser.name }}!! Hasil Quiz Kamu</p>
-    </div>
+    <Hero
+      title="Quiz"
+      subtitle="Hasil Prediksi Sistem" />
 
     <q-card flat>
       <q-card-section class="text-center">
@@ -30,6 +24,7 @@
   import { computed, inject, watch, onMounted, reactive, ref, defineEmit } from 'vue'
   import useQuestions from 'src/serv/question'
   import { fields } from './data'
+  import Hero from 'components/Hero.vue'
 
   defineEmit(['repeat-quiz']);
 

@@ -9,9 +9,12 @@
           height="3rem"
           class="q-my-md" />
       </template>
-      <SessionDetail 
-        v-else-if="session._id"
-        :session="session" />
+      <div v-else-if="session._id" class="row flex-center">
+        <div class="col-sm-12 col-md-6">
+          <SessionDetail 
+            :session="session" />
+        </div>
+      </div>
       <div v-else-if="session == 'error'"
         class="bg-grey-3 q-pa-xl" 
         style="display: flex; justify-content: center; align-items: center; flex-direction: column;">

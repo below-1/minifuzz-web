@@ -1,15 +1,39 @@
 <template>
   <q-page>
-    <div class="bg-indigo-7 text-white column items-center q-py-md">
-      <q-avatar 
-        color="indigo-5"
-        text-color="white"
-        size="5rem"
-        icon="receipt_long" />
-      <p class="text-h5 text-weight-bold">Data Aturan</p>
-    </div>
+    <Hero
+      title="Data Aturan"
+      subtitle="Daftar aturan yang digunakan dalam inferensi" />
 
-    <div class="q-pa-md bg-grey-2">
+    <q-toolbar>
+      <div style="min-width: 150px;">
+        <q-select
+          v-model="params.perPage"
+          hide-bottom-space
+          standout
+          dense
+          flat
+          label="item per halaman"
+          :options="[
+            5, 10, 25, 50
+          ]"
+          class="q-mr-md"
+        />
+      </div>
+      <q-input
+        label="halaman"
+        :model-value="params.page + 1"
+        @update:model-value="(v) => {
+          params.page = parseInt(v) - 1
+        }"
+        type="number"
+        :max="totalPage"
+        min="0"
+        flat
+        standout
+        hide-bottom-space
+        dense
+      />
+      <q-space/>
       <q-btn
         to="/app/rules/create"
         dark
@@ -17,91 +41,30 @@
         label="tambah"
         icon="add"
         unelevated
-        dense
-        class="q-mb-sm"
-        style="display: block; width: 100%;"
       ></q-btn>
-      <q-select
-        v-model="params.perPage"
-        dense
-        outlined
-        label="item per halaman"
-        :options="[
-          10, 25, 50
-        ]"
-        class="q-mb-xs"
-      />
-      <q-input
-        label="halaman"
-        v-model.number="params.page"
-        type="number"
-        :max="totalPage"
-        min="0"
-        outlined
-        dense
-      />
-    </div>
+
+    </q-toolbar>
 
     <div class="q-pa-md" v-if="loading" v-for="i in 6" :key="`placeholder_${i}`">
       <q-skeleton animation="wave" class="q-my-xs" height="2.5rem"/>
     </div>
-    <q-list
+
+    <q-table
       v-else
-      separator
-      padding
+      :columns="columns"
+      :rows="rules"
+      :pagination="{
+        rowsPerPage: 0
+      }"
+      hide-bottom
+      hide-pagination
     >
-      <q-item v-for="rule in rules" class="q-py-md">
-        <q-item-section>
-          <q-item-label class="q-mb-sm text-weight-bold text-grey-7">{{ rule.formattedConsequence }}</q-item-label>
-          <div class="row q-gutter-sm q-px-sm">
-            <template v-for="p, index in rule.predicate"
-              :key="`${rule.id}__${index}`">
-              <q-btn
-                outline
-                padding="8px"
-                :color="rule.colors[index]" 
-                :label="p + 1"
-                class="text-weight-bold"
-                style="font-size: 0.8rem; line-height: 100%;"
-              >
-                <q-menu>
-                  <div class="bg-white q-pa-md">
-                    <div class="text-grey-7 text-weight-bold">Pertanyaan</div>
-                    <div class="text-grey-9 q-mb-sm">{{ rule.formattedPredicates[index].question }}</div>
-                    <div class="text-grey-7 text-weight-bold">Jawaban</div>
-                    <div class="text-grey-9 q-mb-sm">{{ rule.formattedPredicates[index].answer }}</div>
-                  </div>
-                </q-menu>
-              </q-btn>
-            </template>
-          </div>
-        </q-item-section>
-        <q-item-section top side>
-          <q-btn size="12px" flat dense round icon="more_vert">
-            <q-menu auto-close>
-              <q-list separator>
-                <q-item dense :to="`/app/rules/${rule._id}/update`">
-                  <q-item-section avatar>
-                    <q-avatar icon="edit"></q-avatar>
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label>edit</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item dense clickable @click="onDelete(rule)">
-                  <q-item-section avatar>
-                    <q-avatar icon="delete"></q-avatar>
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label>hapus</q-item-label>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-menu>
-          </q-btn>
-        </q-item-section>
-      </q-item>
-    </q-list>
+      <template v-slot:body-cell-actions="props">
+          <q-td :props="props">
+            <q-btn @click="onDelete(props.row)" icon="delete" color="red" flat size="xs" />
+          </q-td>
+        </template>
+    </q-table>
 
     <q-dialog v-model="deleteDialog">
       <q-card>
@@ -122,9 +85,64 @@
 
 <script setup>
   import { ref, reactive, computed, onMounted, watch } from 'vue'
+  import { useQuasar } from 'quasar'
   import useGetRuleAPI from 'src/serv/rule/list'
   import useRemoveRuleAPI from 'src/serv/rule/remove'
   import useQuestions from 'src/serv/question'
+  import Hero from 'components/Hero.vue'
+
+  const columns = [
+    {
+      name: 'E1',
+      field: row => row.formattedPredicates[0].answer,
+      label: 'E1'
+    },
+    {
+      name: 'E2',
+      field: row => row.formattedPredicates[1].answer,
+      label: 'E2'
+    },
+    {
+      name: 'E3',
+      field: row => row.formattedPredicates[2].answer,
+      label: 'E3'
+    },
+    {
+      name: 'E4',
+      field: row => row.formattedPredicates[3].answer,
+      label: 'E4'
+    },
+    {
+      name: 'E5',
+      field: row => row.formattedPredicates[4].answer,
+      label: 'E5'
+    },
+    {
+      name: 'E6',
+      field: row => row.formattedPredicates[5].answer,
+      label: 'E6'
+    },
+    {
+      name: 'E7',
+      field: row => row.formattedPredicates[6].answer,
+      label: 'E7'
+    },
+    {
+      name: 'E8',
+      field: row => row.formattedPredicates[7].answer,
+      label: 'E8'
+    },
+    {
+      name: 'consequence',
+      field: row => row.formattedConsequence,
+      label: 'output'
+    },
+    {
+      name: 'actions',
+      field: row => row._id,
+      label: ''
+    }
+  ]
 
   let formatRule = (t) => t
 
@@ -167,11 +185,12 @@
     }
   }
 
-  onMounted(() => {
-    getQuestions()
-      .then(() => getRules())
-      .catch(err => {
+  onMounted(async () => {
+    try {
+      await getQuestions()
+      await getRules()
+    } catch (err) {
         console.log(err)
-      })
+    }
   })
 </script>

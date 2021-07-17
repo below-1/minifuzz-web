@@ -35,8 +35,10 @@
           </q-item-section>
         </q-item>
       </q-list>
-
     </q-card-section>
+    <q-card-actions>
+      <q-btn flat label="hapus" color="red" />
+    </q-card-actions>
   </q-card>
 
 </template>

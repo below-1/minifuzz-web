@@ -1,53 +1,53 @@
 <template>
   <q-page>
-    <div class="bg-indigo-7 text-white column items-center q-pa-md text-center">
-      <q-avatar 
-        color="indigo-5"
-        text-color="white"
-        size="5rem"
-        icon="receipt_long" />
-      <p class="text-h5 text-weight-bold">Quiz</p>
-      <p class="text-body">Hai, {{ currentUser.name }}!! Jawab semua pertanyaaan dibawah untuk mengetahui tingkat kecanduan online game anda</p>
-    </div>
+    <Hero
+      title="Quiz"
+      :subtitle="`Hai, ${currentUser.username}!! Jawab semua pertanyaaan dibawah untuk mengetahui tingkat kecanduan online game anda`" />
+    <div class="row flex-center">
+      <div class="col-md-6 col-sm-12 q-px-md">
 
-    <q-card flat>
-      <q-card-section>
-        <q-form>
-          <div 
-            v-for="field in fields" 
-            :key="field.name"
-            class="q-my-xl text-center">
-            <div class="text-subtitle2 text-grey-8">
-              {{field.label}}
-            </div>
-            <q-slider
-              v-model.number="payload[field.name]"
-              label
-              :min="field.min"
-              :max="field.max"
-              :step="field.step" />
-            <div class="text-weight-bold text-grey-10">
-              {{ payload[field.name] }}
-            </div>
-          </div>
-        </q-form>
-      </q-card-section>
-    </q-card>
+        <template v-for="field in fields" :key="field.name">
+          <q-card class="q-my-lg">
+            <q-card-section>
+              <div class="text-h6 text-grey-8 text-center">
+                {{field.label}}
+              </div>
+            </q-card-section>
+            <q-separator/>
+            <q-card-section>
+              <q-slider
+                v-model.number="payload[field.name]"
+                label
+                :min="field.min"
+                :max="field.max"
+                :step="field.step" />
+            </q-card-section>
+            <q-separator/>
+            <q-card-section>
+              <div class="text-weight-bold text-center text-grey-10">
+                {{ payload[field.name] }}
+              </div>
+            </q-card-section>
+          </q-card>
+        </template>
 
-    <div class="text-center q-py-lg">
-      <q-btn
-        @click="onSubmit"
-        :disabled="!predicateValid"
-        color="primary"
-        size="lg"
-        unelevated
-        label="hasil"
-      />
+        <div class="text-center q-py-lg">
+          <q-btn
+            @click="onSubmit"
+            :disabled="!predicateValid"
+            color="primary"
+            size="lg"
+            unelevated
+            label="hasil"
+          />
+        </div>
+        
+      </div>
     </div>
   </q-page>
 </template>
 
-<style>
+<style scoped>
   .q-slider__track-container--h {
     height: 10px;
     margin-top: -5px;
@@ -57,6 +57,11 @@
     top: -50%;
     height: 40px;
     width: 40px;
+  }
+
+  .hero {
+    background-image: linear-gradient(to bottom, #111A, #111B), url(/hero-2.jpg);
+    background-attachment: fixed;
   }
 </style>
 
@@ -75,6 +80,7 @@
   import useQuestionOptions from 'src/serv/optionize'
   import { defaultSession } from 'src/serv/defaults'
   import { fields } from './data'
+  import Hero from 'components/Hero.vue'
 
   defineEmit(['submit']);
   const { emit } = useContext();
