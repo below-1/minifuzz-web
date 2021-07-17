@@ -28,10 +28,10 @@
         <q-toolbar-title class="text-h6">Jawaban</q-toolbar-title>
       </q-toolbar>
       <q-list separator>
-        <q-item v-for="it in formattedAnswers">
+        <q-item v-for="it in formattedAnswers" class="q-py-lg">
           <q-item-section>
             <q-item-label>{{ it.question }}</q-item-label> 
-            <q-item-label>{{ it.answer }}</q-item-label>
+            <q-item-label class="text-weight-bold" style="font-size: 1.6rem;">{{ it.answer }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
