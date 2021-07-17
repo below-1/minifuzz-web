@@ -27,14 +27,12 @@ export default function () {
   const answers = ref([])
   const loading = ref(false)
 
-  const $getQuestions = () => {
+  const $getQuestions = async () => {
     loading.value = true
-    return getQuestions()
-      .then(data => {
-        questions.value = data.questions
-        answers.value = data.answers
-        loading.value = false
-      })
+    const data = await getQuestions()
+    questions.value = data.questions
+    answers.value = data.answers
+    loading.value = false
   }
 
   return {

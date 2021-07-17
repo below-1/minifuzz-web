@@ -1,8 +1,8 @@
 <template>
   <Loading v-if="userLoading" />
-  <q-layout v-else view="hHh lpr fFf">
+  <q-layout v-else view="hHh lpr lff">
     <q-header>
-      <q-toolbar class="bg-white text-blue-9" style="border-bottom: 1px solid #eee;">
+      <q-toolbar class="bg-dark text-white">
         <q-btn
           flat
           dense
@@ -24,10 +24,9 @@
     </q-header>
     <q-drawer
       v-model="leftDrawerOpen"
-      bordered
-      class="bg-grey-1"
+      class="bg-dark text-white"
     >
-      <div class="row q-px-md q-py-md" style="border-bottom: solid #ccc 1px;">
+      <div class="row q-px-md q-py-md">
         <q-avatar size="lg" color="indigo" text-color="white" icon="person" class="q-mr-sm">
         </q-avatar>
         <div>
@@ -69,10 +68,10 @@
 </template>
 
 <script setup>
-  import { ref, computed, onMounted, provide } from 'vue';
-  import useCurrentUser from 'src/serv/currentUser';
-  import Loading from 'components/Loading.vue';
-  import UserButton from 'components/UserButton.vue';
+  import { ref, computed, onMounted, provide } from 'vue'
+  import useCurrentUser from 'src/serv/currentUser'
+  import Loading from 'components/Loading.vue'
+  import UserButton from 'components/UserButton.vue'
 
   const leftDrawerOpen = ref(false)
   const {
