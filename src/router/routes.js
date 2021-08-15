@@ -17,6 +17,7 @@ const routes = [
   { path: '/app', component: () => import('layouts/AppLayout.vue'),
     children: [
       { path: '', component: () => import('pages/app/Home.vue') },
+      { path: 'about', component: () => import('pages/About.vue') },
       { path: 'rules', component: () => import('pages/rule/List.vue') },
       { path: 'rules/:id/update', component: () => import('pages/rule/Update.vue'), props: true },
       { path: 'rules/create', component: () => import('pages/rule/Create.vue') },

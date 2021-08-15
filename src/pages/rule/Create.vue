@@ -1,42 +1,42 @@
 <template>
   <q-page>
-    <div class="bg-indigo-7 text-white column items-center q-py-md">
-      <q-avatar 
-        color="indigo-5"
-        text-color="white"
-        size="5rem"
-        icon="receipt_long" />
-      <p class="text-h5 text-weight-bold">Tambah Aturan</p>
+    <Hero
+      title="Tambah Data Aturan"
+      subtitle="Aturan baru yang digunakan dalam inferensi" />
+
+    <div class="row flex-center">
+      <div class="col-md-6 col-sm-12 q-px-md">
+        <q-card flat>
+          <q-card-section>
+            <q-form>
+              <template 
+                v-for="q, index in questions" 
+                :key="`question_${index}`">
+                <div class="q-mb-lg">
+                  <div>{{ questionsOptions[index].question }}</div>
+                  <q-option-group
+                    :options="questionsOptions[index].answers"
+                    type="radio"
+                    v-model="payload.predicate[index]"
+                  />
+                </div>
+              </template>
+              <div class="q-mb-lg">
+                <div>Jawaban</div>
+                <q-option-group
+                  :options="answersOptions"
+                  type="radio"
+                  v-model="payload.consequence"
+                />
+              </div>
+            </q-form>
+          </q-card-section>
+          <q-card-actions align="center">
+            <q-btn @click="onSubmit" color="blue" size="lg" flat>simpan</q-btn>
+          </q-card-actions>
+        </q-card>
+      </div>
     </div>
-    <q-card flat>
-      <q-card-section>
-        <q-form>
-          <template 
-            v-for="q, index in questions" 
-            :key="`question_${index}`">
-            <div class="q-mb-lg">
-              <div>{{ questionsOptions[index].question }}</div>
-              <q-option-group
-                :options="questionsOptions[index].answers"
-                type="radio"
-                v-model="payload.predicate[index]"
-              />
-            </div>
-          </template>
-          <div class="q-mb-lg">
-            <div>Jawaban</div>
-            <q-option-group
-              :options="answersOptions"
-              type="radio"
-              v-model="payload.consequence"
-            />
-          </div>
-        </q-form>
-      </q-card-section>
-      <q-card-actions align="center">
-        <q-btn @click="onSubmit" color="blue" size="lg" flat>simpan</q-btn>
-      </q-card-actions>
-    </q-card>
   </q-page>
 </template>
 
@@ -45,6 +45,7 @@
   import { useRouter } from 'vue-router'
   import { api } from 'boot/axios'
   import useQuestions from 'src/serv/question'
+  import Hero from 'components/Hero.vue'
 
   const router = useRouter()
 

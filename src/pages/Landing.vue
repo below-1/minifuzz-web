@@ -29,7 +29,7 @@
 
 <style scoped>
  .hero {
-  height: 600px;
+  height: 100vh;
   width: 100%;
   background:
     linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)),

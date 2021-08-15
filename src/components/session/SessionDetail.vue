@@ -37,14 +37,14 @@
       </q-list>
     </q-card-section>
     <q-card-actions>
-      <q-btn flat label="hapus" color="red" />
+      <q-btn @click="$emit('delete')" flat label="hapus" color="red" />
     </q-card-actions>
   </q-card>
 
 </template>
 
 <script setup>
-  import { defineProps, toRefs, ref, inject, computed, onMounted, isRef } from 'vue'
+  import { defineProps, defineEmit, toRefs, ref, inject, computed, onMounted, isRef } from 'vue'
   import { useFormatDate, useFormatAnswers } from 'src/serv/session/format'
 
   const questions = inject('questions')
@@ -57,6 +57,8 @@
       required: true
     }
   })
+
+  defineEmit(['delete'])
 
   const { session } = toRefs(props)
   const start = computed(() => session.value.start)

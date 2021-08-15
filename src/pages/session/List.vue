@@ -1,13 +1,9 @@
 <template>
   <q-page>
-    <div class="bg-indigo-7 text-white column items-center q-py-md">
-      <q-avatar 
-        color="indigo-5"
-        text-color="white"
-        size="5rem"
-        icon="receipt_long" />
-      <p class="text-h5 text-weight-bold">Daftar Sesi</p>
-    </div>
+    <Hero
+      title="Daftar Sesi"
+      subtitle="Rekaman sesi yang pernah anda lakukan"
+    />
 
     <div v-if="!loading" class="row flex-center q-my-md">
       <div class="col-md-8 col-sm-12">
@@ -33,6 +29,7 @@
   import useQuestions from 'src/serv/question'
   import useListSession from 'src/serv/session/list'
   import SessionListItem from 'components/session/SessionListItem.vue'
+  import Hero from 'components/Hero.vue'
 
   const { currentUser } = inject('currentUser')
   // const format = inject('formatSession')

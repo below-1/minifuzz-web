@@ -1,18 +1,21 @@
 <template>
   <q-item class="q-py-md" :to="`/app/sessions/${id}`">
-    <!-- Remove Padding Right Align the width -->
-    <q-item-section avatar class="q-pr-none">
-      <div class="text-weight-bold" style="font-size: 0.7rem;">
-        {{ maxConfidence }}
-      </div>
-    </q-item-section>
     <q-item-section>
-      <q-item-label class="text-weight-bold" lines="3">
-        {{ formattedOutputs }}
-      </q-item-label>
-      <q-item-label caption>
-        {{ formattedDate.elapsed }}, berlangsung selama {{ formattedDate.timeTaken }}
-      </q-item-label>
+      <div class="row q-col-gutter-lg">
+        <div class="col-md-2 col-sm-12 flex flex-center">
+          <div class="text-weight-bold" style="font-size: 1rem;">
+            {{ maxConfidence }}
+          </div>
+        </div>
+        <div class="col-md-10 col-sm-12">
+          <q-item-label class="text-weight-bold" lines="3">
+            {{ formattedOutputs }}
+          </q-item-label>
+          <q-item-label caption>
+            {{ formattedDate.elapsed }}, berlangsung selama {{ formattedDate.timeTaken }}
+          </q-item-label>
+        </div>
+      </div>
     </q-item-section>
   </q-item>
 </template>
