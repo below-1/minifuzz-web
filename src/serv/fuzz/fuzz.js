@@ -31,7 +31,11 @@ export default function fuzzy() {
   function run(input) {
     const fuzzVals = fuzzFunc(input)
     const ruleInfos = imply(rules.value, fuzzVals)
+    console.log('ruleInfos')
+    console.log(ruleInfos)
     const results = defuzz(ruleInfos)
+    console.log('results')
+    console.log(results)
     return results
   }
 

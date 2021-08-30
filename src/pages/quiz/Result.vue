@@ -11,10 +11,18 @@
           size="lg" flat dark color="indigo" label="ulangi quiz" />
       </q-card-section>
       <q-card-section>
-        <div class="text-center q-my-md" v-for="fr, i in formattedResult" :key="`result_${i}`">
-          <div class="text-h4 text-weight-bold q-my-none">{{ fr.label }}</div>
-          <div class="text-h5 q-my-none">{{ fr.confidence }}</div>
-        </div>
+        <template v-if="formattedResult.length >= 3">
+          <div class="text-center">
+            <h4 class="q-ma-none">
+              Anda Mengalami Kecanduan Game
+            </h4>
+            <h6 class="q-ma-none">Silahkan berkonsultasi dengan dokter</h6>
+            <div class="q-my-md" v-for="fr, i in formattedResult" :key="`result_${i}`">
+              <div class="text-h4 text-weight-bold q-my-none">{{ fr.label }}</div>
+              <div class="text-h5 q-my-none">{{ fr.confidence }}</div>
+            </div>
+          </div>
+        </template>
       </q-card-section>
     </q-card>
   </q-page>
@@ -42,31 +50,47 @@
     if (!raw) {
       throw new Error('fail to load saved results');
     }
-    results.value = JSON.parse(raw)
+    let parsed = JSON.parse(raw)
+    let sorted = parsed.sort((a, b) => {
+      return a.confidence > b.confidence ? -1 : 1
+    })
+    results.value = sorted
   }
 
   function calculateTopOutput(results) {
-    let max = 0;
-    let maxOuts = [];
-    const eps = 0.00001;
-    for (let r of results) {
-      if (r.confidence > max) {
-        max = r.confidence;
-      }
-    }
-    for (let r of results) {
-      if (Math.abs(r.confidence - max) < eps) {
-        maxOuts.push(r);
-      }
-    }
-    // console.log(maxOuts);
-    const formatted = maxOuts.map(r => {
-      return {
+    const ntop = results.length >= 3 ? 3 : results.length
+    let taken = 0
+    let formattedResults = []
+    while (taken < ntop) {
+      let r = results[taken]
+      formattedResults.push({
         confidence: `${(r.confidence * 100).toFixed(2)} %`,
         label: answers.value[r.consequence]
-      }
-    });
-    return formatted;
+      })
+      taken += 1
+    }
+    return formattedResults
+    // let max = 0;
+    // let maxOuts = [];
+    // const eps = 0.00001;
+    // for (let r of results) {
+    //   if (r.confidence > max) {
+    //     max = r.confidence;
+    //   }
+    // }
+    // for (let r of results) {
+    //   if (Math.abs(r.confidence - max) < eps) {
+    //     maxOuts.push(r);
+    //   }
+    // }
+    // // console.log(maxOuts);
+    // const formatted = maxOuts.map(r => {
+    //   return {
+    //     confidence: `${(r.confidence * 100).toFixed(2)} %`,
+    //     label: answers.value[r.consequence]
+    //   }
+    // });
+    // return formatted;
   }
 
   function repeatQuiz() {

@@ -22,10 +22,9 @@ export function ConsTriangle(a, b, c) {
             throw new Error(`x is not covered: ${x}, (${a}, ${b}, ${c})`);
         },
         _f: (y) => {
-            return [
-                (y * (b - a)) + a,
-                -1 * ((y * (c - b)) - c)
-            ];
+            const result = [(y * (b - a)) + a,
+                c - (y * (c - b))]
+            return result
         }
     };
 }
@@ -195,9 +194,16 @@ export function imply(rules, input) {
 }
 export function calcConfidence(ri, maxStrength) {
     const consequence = ri.consequence;
+    // console.log('ri')
+    // console.log(ri)
     const xs = consMeta[consequence]._f(maxStrength);
+    // console.log(xs)
     const midPoint = xs.reduce((a, b) => a + b, 0) / xs.length;
+    // console.log('midPoint')
+    // console.log(midPoint)
     const result = consMeta[consequence].f(midPoint);
+    // console.log('result')
+    // console.log(result)
     return {
         confidence: result,
         consequence
@@ -209,5 +215,6 @@ export function defuzz(ruleInfos) {
         throw new Error('EMPTY_RULE_INFOS');
     }
     const maxStrength = Math.max(...ruleInfos.map(ri => ri.strength));
-    return ruleInfos.map(ruleInfo => calcConfidence(ruleInfo, maxStrength));
+    const rounded = parseFloat(maxStrength.toPrecision(2))
+    return ruleInfos.map(ruleInfo => calcConfidence(ruleInfo, rounded));
 }

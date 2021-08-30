@@ -6,6 +6,8 @@
   "author": "jordan meta <jordanmeta@mail.com>",
   "private": true,
   "scripts": {
+    "build": "quasar build",
+    "deploy": "vercel",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
