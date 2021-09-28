@@ -30,6 +30,8 @@ export default function fuzzy() {
 
   function run(input) {
     const fuzzVals = fuzzFunc(input)
+    console.log('fuzzVals')
+    console.log(fuzzVals)
     const ruleInfos = imply(rules.value, fuzzVals)
     console.log('ruleInfos')
     console.log(ruleInfos)

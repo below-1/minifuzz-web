@@ -178,6 +178,7 @@ export function imply(rules, input) {
     });
     rules.forEach(r => {
         let strength = ruleStrength(r.predicate, input);
+        console.log(`${r.predicate} -> ${strength}`)
         const ruleInfo = Object.assign(Object.assign({}, r), { strength });
         if (!isFinite(strength)) {
             return;
@@ -187,6 +188,7 @@ export function imply(rules, input) {
             group.set(ruleInfo.consequence, ruleInfo);
         }
     });
+    console.log(group)
     const filtered = Array.from(group.entries())
         .map(pair => pair[1])
         .filter(ri => ri !== null);

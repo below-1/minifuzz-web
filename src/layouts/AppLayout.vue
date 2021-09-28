@@ -1,7 +1,7 @@
 <template>
   <Loading v-if="userLoading" />
   <q-layout v-else view="hHh Lpr lff">
-    <q-header elevated class="bg-white text-grey-9">
+    <q-header elevated dark>
       <q-toolbar>
         <q-btn
           flat
