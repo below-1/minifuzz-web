@@ -98,14 +98,14 @@
   } = useQuestions()
 
   const payload = reactive({
-    matchMakingPerDay: 23,
-    increaseDuration: 5,
-    runwayIntensity: 4,
-    angerWhenStopped: 4,
-    desireToReplay: 6,
+    matchMakingPerDay: 25,
+    increaseDuration: 12,
+    runwayIntensity: 5,
+    angerWhenStopped: 5,
+    desireToReplay: 5,
     sideEffectAwareness: 5,
-    procrastination: 2,
-    gamingCost: 50000
+    procrastination: 5,
+    gamingCost: 500000
   })
 
   const predicateValid = computed(() => {

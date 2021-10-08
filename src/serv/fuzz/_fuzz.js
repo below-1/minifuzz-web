@@ -15,7 +15,7 @@ export function ConsTriangle(a, b, c) {
         f: (x) => {
             if (x <= a || x >= c)
                 return 0;
-            if (x > a && x <= b)
+            if (x > a && x < b)
                 return (x - a) / (b - a);
             if (x >= b && x < c)
                 return (c - x) / (c - b);
@@ -177,8 +177,16 @@ export function imply(rules, input) {
         group.set(c, null);
     });
     rules.forEach(r => {
+        const vals = r.predicate.map((k, index) => {
+            const result = input[index][k];
+            // Fail hard upon INDEX_OUT_OF_BOUND
+            if (result === undefined) {
+                throw new Error(`INDEX_OUT_OF_BOUND: r=${r}`);
+            }
+            return result;
+        })
         let strength = ruleStrength(r.predicate, input);
-        console.log(`${r.predicate} -> ${strength}`)
+        console.log(`P(${r.predicate}), ${vals} -> ${strength}`)
         const ruleInfo = Object.assign(Object.assign({}, r), { strength });
         if (!isFinite(strength)) {
             return;
@@ -196,16 +204,15 @@ export function imply(rules, input) {
 }
 export function calcConfidence(ri, maxStrength) {
     const consequence = ri.consequence;
-    // console.log('ri')
-    // console.log(ri)
     const xs = consMeta[consequence]._f(maxStrength);
-    // console.log(xs)
+    console.log(`consequence: ${ri.consequence}`)
+    console.log(xs)
     const midPoint = xs.reduce((a, b) => a + b, 0) / xs.length;
     // console.log('midPoint')
     // console.log(midPoint)
     const result = consMeta[consequence].f(midPoint);
-    // console.log('result')
-    // console.log(result)
+    console.log('result')
+    console.log(result)
     return {
         confidence: result,
         consequence
