@@ -18,7 +18,7 @@ export default function useListSession() {
   const params = reactive({
     userId: null,
     page: 0,
-    perPage: 10
+    perPage: 50
   })
   const loading = ref(false)
   const getSession = async () => {

@@ -1,4 +1,4 @@
-const CONS = [0, 1, 2, 3, 4, 5, 6];
+const CONS = [0, 1, 2, 3, 4, 5];
 export function Triangle(a, b, c) {
     return (x) => {
         if (x <= a || x >= c)
@@ -6,7 +6,7 @@ export function Triangle(a, b, c) {
         if (x > a && x <= b)
             return (x - a) / (b - a);
         if (x >= b && x < c)
-            return (c - x) / (c - b);
+            return (b - x) / (c - b);
         throw new Error(`x is not covered: ${x}, (${a}, ${b}, ${c})`);
     };
 }
@@ -18,13 +18,16 @@ export function ConsTriangle(a, b, c) {
             if (x > a && x < b)
                 return (x - a) / (b - a);
             if (x >= b && x < c)
-                return (c - x) / (c - b);
+                return (b - x) / (c - b);
             throw new Error(`x is not covered: ${x}, (${a}, ${b}, ${c})`);
         },
         _f: (y) => {
             const result = [(y * (b - a)) + a,
-                c - (y * (c - b))]
+                 b - (y * (c - b))]
             return result
+        },
+        _percentage: (x) => {
+            return (x - a) * 1.0 / (b - a);
         }
     };
 }
@@ -136,7 +139,6 @@ export const meta = [
     ]
 ];
 export const consMeta = [
-    ConsLeftTrap(9, 14),
     ConsTriangle(9, 21, 28),
     ConsTriangle(21, 35, 42),
     ConsTriangle(35, 49, 56),
@@ -169,6 +171,7 @@ export function ruleStrength(predicate, input) {
         return result;
     });
     // possible INFINITY
+    // return vals.filter(v => v > 0).reduce((a, b) => a + b) / vals.length
     return Math.min(...vals.filter(v => v > 0));
 }
 export function imply(rules, input) {
@@ -196,6 +199,7 @@ export function imply(rules, input) {
             group.set(ruleInfo.consequence, ruleInfo);
         }
     });
+    console.log('group')
     console.log(group)
     const filtered = Array.from(group.entries())
         .map(pair => pair[1])
@@ -205,16 +209,17 @@ export function imply(rules, input) {
 export function calcConfidence(ri, maxStrength) {
     const consequence = ri.consequence;
     const xs = consMeta[consequence]._f(maxStrength);
-    console.log(`consequence: ${ri.consequence}`)
-    console.log(xs)
+    // console.log(`consequence: ${ri.consequence}`)
+    // console.log(xs)
     const midPoint = xs.reduce((a, b) => a + b, 0) / xs.length;
-    // console.log('midPoint')
+    // const conf = consMeta[consequence]._percentage(midPoint)
+    // console.log('midPoint = ', midPoint)
     // console.log(midPoint)
     const result = consMeta[consequence].f(midPoint);
     console.log('result')
     console.log(result)
     return {
-        confidence: result,
+        confidence: result * 100,
         consequence
     };
 }

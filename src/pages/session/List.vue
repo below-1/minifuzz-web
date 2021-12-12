@@ -7,16 +7,18 @@
 
     <div v-if="!loading" class="row flex-center q-my-md">
       <div class="col-md-8 col-sm-12">
-        <q-list separator flat>
-          <template v-for="session in items" :key="session._id">
-            <!-- <div>{{ session.start }}</div> -->
-            <SessionListItem
-              :id="session._id"
-              :start="session.start"
-              :end="session.end"
-              :outputs="session.outputs"/>
-          </template>
-        </q-list>
+        <q-card bordered square flat>
+          <q-list separator flat>
+            <template v-for="session in items" :key="session._id">
+              <!-- <div>{{ session.start }}</div> -->
+              <SessionListItem
+                :id="session._id"
+                :start="session.start"
+                :end="session.end"
+                :outputs="session.outputs"/>
+            </template>
+          </q-list>
+        </q-card>
       </div>
     </div>
 

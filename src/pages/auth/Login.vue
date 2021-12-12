@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center bg-red-9">
+  <q-page class="flex flex-center bg-purple-9">
     <div>
       <div class="text-center q-mb-md">
         <q-icon color="white" size="6rem" name="lock"></q-icon>

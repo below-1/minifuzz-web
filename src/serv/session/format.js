@@ -81,7 +81,7 @@ export function formatOutputBuilder(options) {
   const decimal = !isNaN(options.decimal) ? options.decimal : 2
   return (output) => {
     const consequence = answers[output.consequence]
-    const confidence = `${(output.confidence * 100).toFixed(decimal)}%`
+    const confidence = `${(output.confidence).toFixed(decimal)}%`
     return {
       consequence,
       confidence

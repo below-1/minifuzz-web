@@ -52,6 +52,8 @@
       payload.gamingCost
     ]
     const results = run(input);
+    console.log('results')
+    console.log(results)
     localStorage.setItem('fuzz.results', JSON.stringify(results));
     comp.value = 'quiz-result';
     saveSession(payload, results);

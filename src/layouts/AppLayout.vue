@@ -2,39 +2,36 @@
   <Loading v-if="userLoading" />
   <q-layout v-else view="hHh Lpr lff">
     <q-header elevated dark>
-      <q-toolbar>
+      <q-toolbar class="bg-purple-10">
+        <q-btn
+          round
+          flat
+          class="q-mr-md"
+          @click="toggleLeftDrawer"
+        >
+          <q-icon name="timeline" color="white"></q-icon>
+        </q-btn>
+        <p class="text-subtitle1 q-my-none">
+        Sistem Pendukung Keputusan Menggunakan Metode Fuzzy Mamdani
+        </p>
+        <q-space/>
         <q-btn
           flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-        <q-toolbar-title>
-          MiniFuzz
-        </q-toolbar-title>
-
-        <q-space/>
-
-        <UserButton 
-          :user="currentUser"
-          :loading="userLoading"/>
+          color="white"
+          to="/auth/login"
+        >
+          <q-icon name="settings_power" color="white" class="q-mr-sm"></q-icon>
+          <span>log out</span>
+        </q-btn>
       </q-toolbar>
     </q-header>
     <q-drawer
-      v-model="leftDrawerOpen"
-      class="bg-dark text-white"
+      :mini="leftDrawerMini"
+      show-if-above
+      bordered
+      class="bg-grey-2 text-grey-9"
     >
-      <div class="row q-px-md q-py-md">
-        <q-avatar size="lg" color="indigo" text-color="white" icon="person" class="q-mr-sm">
-        </q-avatar>
-        <div>
-          <div>{{ currentUser.username }} / {{ currentUser.name }}</div>
-          <div>role: {{ currentUser.role }}</div>
-        </div>
-      </div>
-      <q-list separator>
+      <q-list>
         <q-item
           clickable
           v-for="menu in menus"
@@ -49,7 +46,7 @@
           </q-item-section>
 
           <q-item-section>
-            <q-item-label>{{ menu.title }}</q-item-label>
+            <q-item-label class="text-capitalize">{{ menu.title }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -61,7 +58,7 @@
         </div>
       </q-toolbar>
     </q-footer>
-    <q-page-container>
+    <q-page-container class="bg-grey-3">
       <router-view />
     </q-page-container>
   </q-layout>
@@ -74,6 +71,7 @@
   import UserButton from 'components/UserButton.vue'
 
   const leftDrawerOpen = ref(false)
+  const leftDrawerMini = ref(false)
   const {
     currentUser,
     loading: userLoading,
@@ -82,7 +80,7 @@
   provide('currentUser', currentUser)
 
   function toggleLeftDrawer () {
-    leftDrawerOpen.value = !leftDrawerOpen.value
+    leftDrawerMini.value = !leftDrawerMini.value
   }
 
   const menus = computed(() => {

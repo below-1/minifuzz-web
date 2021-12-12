@@ -4,25 +4,37 @@
       title="Quiz"
       subtitle="Hasil Prediksi Sistem" />
 
-    <q-card flat>
+    <q-card flat class="text-white" v-bind:class="[avg ? 'bg-red-9' : 'bg-purple-9']">
       <q-card-section class="text-center">
         <q-btn 
           @click="$emit('repeat-quiz')"
-          size="lg" flat dark color="indigo" label="ulangi quiz" />
+          size="lg" unelevated label="ulangi quiz" />
       </q-card-section>
       <q-card-section>
-        <template v-if="formattedResult.length >= 3">
+        <template v-if="formattedResult.length >= 0">
           <div class="text-center">
             <h4 class="q-ma-none">
               Anda Mengalami Kecanduan Game
             </h4>
+
             <h6 class="q-ma-none">Silahkan berkonsultasi dengan dokter</h6>
+            <div class="q-my-md" v-if="avg">
+              <div class="text-h5 q-my-none">{{ avg.toFixed(2) }} %</div>
+            </div>
+
+            <!-- <h6 class="q-ma-none">Silahkan berkonsultasi dengan dokter</h6>
             <div class="q-my-md" v-for="fr, i in formattedResult" :key="`result_${i}`">
               <div class="text-h4 text-weight-bold q-my-none">{{ fr.label }}</div>
               <div class="text-h5 q-my-none">{{ fr.confidence }}</div>
-            </div>
+            </div> -->
+
           </div>
         </template>
+
+        <h4 v-else class="q-ma-none">
+          Anda tidak memiliki prilaku Kecanduan Game
+        </h4>
+
       </q-card-section>
     </q-card>
   </q-page>
@@ -58,39 +70,20 @@
   }
 
   function calculateTopOutput(results) {
-    const ntop = results.length >= 3 ? 3 : results.length
+    const filteredResults = results.filter(r => r.confidence > 50)
+    const ntop = filteredResults.length
+    // const ntop = filteredResults.length >= 3 ? 3 : filteredResults.length
     let taken = 0
     let formattedResults = []
     while (taken < ntop) {
-      let r = results[taken]
+      let r = filteredResults[taken]
       formattedResults.push({
-        confidence: `${(r.confidence * 100).toFixed(2)} %`,
+        confidence: `${r.confidence.toFixed(2)}`,
         label: answers.value[r.consequence]
       })
       taken += 1
     }
     return formattedResults
-    // let max = 0;
-    // let maxOuts = [];
-    // const eps = 0.00001;
-    // for (let r of results) {
-    //   if (r.confidence > max) {
-    //     max = r.confidence;
-    //   }
-    // }
-    // for (let r of results) {
-    //   if (Math.abs(r.confidence - max) < eps) {
-    //     maxOuts.push(r);
-    //   }
-    // }
-    // // console.log(maxOuts);
-    // const formatted = maxOuts.map(r => {
-    //   return {
-    //     confidence: `${(r.confidence * 100).toFixed(2)} %`,
-    //     label: answers.value[r.consequence]
-    //   }
-    // });
-    // return formatted;
   }
 
   function repeatQuiz() {
@@ -98,6 +91,17 @@
   }
 
   const formattedResult = computed(() => calculateTopOutput(results.value))
+
+  const avg = computed(() => {
+    const frs = results.value
+    console.log('frs=')
+    console.log(frs)
+    if (!frs.length) return null;
+    const total = frs
+      .map(it => parseFloat(it.confidence))
+      .reduce((a, b) => a + b, 0)
+    return (total / frs.length)
+  })
 
   onMounted(async () => {
     try {

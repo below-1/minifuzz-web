@@ -1,18 +1,41 @@
 <template>
   <q-page>
-    <div class="hero row items-center text-white">
-      <div class="col-xs-12 col-md-6 text-center">
-        <p class="text-weight-bolder text-h4">Diagnosa Kecanduan Game Online</p>
-        <p class="text-subtitle2 q-px-sm">sistem pakar dengan fuzzy mamdani untuk mendiagnosa perilaku kecanduan game online</p>
-        <q-btn 
+    <div class="hero column text-white">
+      <q-toolbar class="col-1 bg-purple-10">
+        <q-btn
+          flat
+          class="q-mr-md"
+        >
+          <q-icon name="timeline" size="xl" color="white"></q-icon>
+        </q-btn>
+        <p class="text-subtitle1 q-my-none">
+        Sistem Pendukung Keputusan Menggunakan Metode Fuzzy Mamdani
+        </p>
+        <q-space/>
+        <q-btn
+          flat
+          color="white"
           to="/auth/login"
-          size="lg" color="purple" dark class="dot text-weight-bold" unelevated>Login</q-btn>
+        >
+          <q-icon name="person" color="white" class="q-mr-sm"></q-icon>
+          <span>sign in</span>
+        </q-btn>
+      </q-toolbar>
+      <div class="col column justify-center items-center">
+        <q-icon name="timeline" size="10rem" color="white" class="dot"></q-icon>
       </div>
-      <div class="col-xs-12 col-md-6 text-center">
-        <Logo class="logo text-teal-6" :width="iconSize" :height="iconSize" />
+      <div 
+        class="col-4 text-center column justify-center items-center" 
+        style="background: rgba(0, 0, 0, 0.5);">
+        <h2 class="text-weight-bolder q-my-none">Minifuzz</h2>
+        <h5 class="text-weight-bold q-my-none">Diagnosa Kecanduan Game Online</h5>
+        <!-- <q-btn 
+          to="/auth/login"
+          size="lg" color="purple" dark class="text-weight-bold" unelevated>Login</q-btn> -->
       </div>
     </div>
-    <div class="q-px-lg q-py-xl">
+
+    <!-- <div class="q-px-lg q-py-xl">
       <div class="row q-col-gutter-lg">
         <div 
           v-for="feature in features" 
@@ -23,7 +46,7 @@
           <p class="caption q-px-lg">{{ feature.text }}</p>
         </div>
       </div>
-    </div>
+    </div> -->
   </q-page>
 </template>
 
@@ -33,7 +56,7 @@
   width: 100%;
   background:
     linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)),
-    url(/cool-background.png);
+    url(/hero-bg.jpg);
   background-position: center;
   background-attachment: fixed;
   background-size: cover;

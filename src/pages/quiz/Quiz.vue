@@ -76,6 +76,7 @@
     defineEmit,
     useContext,
   } from 'vue'
+  import { useQuasar } from 'quasar'
   import useQuestions from 'src/serv/question'
   import useQuestionOptions from 'src/serv/optionize'
   import { defaultSession } from 'src/serv/defaults'
@@ -84,6 +85,7 @@
 
   defineEmit(['submit']);
   const { emit } = useContext();
+  const quasar = useQuasar();
 
   const startTime = new Date()
   const props = defineProps({
@@ -98,14 +100,32 @@
   } = useQuestions()
 
   const payload = reactive({
-    matchMakingPerDay: 25,
-    increaseDuration: 12,
-    runwayIntensity: 5,
-    angerWhenStopped: 5,
-    desireToReplay: 5,
-    sideEffectAwareness: 5,
-    procrastination: 5,
-    gamingCost: 500000
+    // matchMakingPerDay: 23,
+    // increaseDuration: 5,
+    // runwayIntensity: 4,
+    // angerWhenStopped: 4,
+    // desireToReplay: 6,
+    // sideEffectAwareness: 5,
+    // procrastination: 2,
+    // gamingCost: 50000,
+    
+    // matchMakingPerDay: 49,
+    // increaseDuration: 23,
+    // runwayIntensity: 10,
+    // angerWhenStopped: 9,
+    // desireToReplay: 9,
+    // sideEffectAwareness: 9,
+    // procrastination: 9,
+    // gamingCost: 850000,
+
+    matchMakingPerDay: 1,
+    increaseDuration: 1,
+    runwayIntensity: 1,
+    angerWhenStopped: 1,
+    desireToReplay: 1,
+    sideEffectAwareness: 1,
+    procrastination: 1,
+    gamingCost: 20000
   })
 
   const predicateValid = computed(() => {
@@ -123,6 +143,27 @@
 
   function onSubmit() {
     const endTime = new Date()
+
+    console.log('payload')
+    console.log(payload)
+
+    const _payload = { ...payload }
+
+    const allZero = Object.keys(_payload).every(it => {
+      return payload[it] == 0
+    })
+
+    if (allZero) {
+      console.log(quasar)
+      quasar.notify({
+        message: 'Tidak boleh nol semua',
+        type: 'negative'
+      })
+      return
+      // throw new Error('All Zero')
+    }
+    // throw new Error('All Zero')
+
     const postPayload = {
       ...payload,
       start: startTime,

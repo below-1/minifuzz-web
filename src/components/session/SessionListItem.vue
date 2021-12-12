@@ -4,7 +4,7 @@
       <div class="row q-col-gutter-lg">
         <div class="col-md-2 col-sm-12 flex flex-center">
           <div class="text-weight-bold" style="font-size: 1rem;">
-            {{ maxConfidence }}
+            {{ avg.toFixed(2) }}
           </div>
         </div>
         <div class="col-md-10 col-sm-12">
@@ -54,9 +54,14 @@
   const maxConfidence = computed(() => {
     const vals = maxOutputs.value
     if (vals.length) {
-      return formatNumber(vals[0].confidence * 100) + '%'
+      return formatNumber(vals[0].confidence) + '%'
     }
     return '0 %'
+  })
+
+  const avg = computed(() => {
+    const tot = outputs.value.map(it => it.confidence).reduce((a, b) => a + b, 0)
+    return tot / outputs.value.length
   })
 
   function calculateMaxResult(outputs) {
