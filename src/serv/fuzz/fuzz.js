@@ -29,16 +29,9 @@ export default function fuzzy() {
   const fuzzFunc = buildFuzzier(meta)
 
   function run(input) {
-    // console.log('input = ', input)
     const fuzzVals = fuzzFunc(input)
-    // console.log('fuzzVals')
-    console.log(fuzzVals)
     const ruleInfos = imply(rules.value, fuzzVals)
-    console.log('ruleInfos')
-    console.log(ruleInfos)
     const results = defuzz(ruleInfos)
-    console.log('results')
-    console.log(results)
     return results
   }
 

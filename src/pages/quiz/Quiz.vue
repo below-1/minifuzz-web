@@ -100,14 +100,14 @@
   } = useQuestions()
 
   const payload = reactive({
-    // matchMakingPerDay: 23,
-    // increaseDuration: 5,
-    // runwayIntensity: 4,
-    // angerWhenStopped: 4,
-    // desireToReplay: 6,
-    // sideEffectAwareness: 5,
-    // procrastination: 2,
-    // gamingCost: 50000,
+    matchMakingPerDay: 23,
+    increaseDuration: 5,
+    runwayIntensity: 4,
+    angerWhenStopped: 4,
+    desireToReplay: 6,
+    sideEffectAwareness: 5,
+    procrastination: 2,
+    gamingCost: 50000,
     
     // matchMakingPerDay: 49,
     // increaseDuration: 23,
@@ -118,14 +118,14 @@
     // procrastination: 9,
     // gamingCost: 850000,
 
-    matchMakingPerDay: 1,
-    increaseDuration: 1,
-    runwayIntensity: 1,
-    angerWhenStopped: 1,
-    desireToReplay: 1,
-    sideEffectAwareness: 1,
-    procrastination: 1,
-    gamingCost: 20000
+    // matchMakingPerDay: 1,
+    // increaseDuration: 1,
+    // runwayIntensity: 1,
+    // angerWhenStopped: 1,
+    // desireToReplay: 1,
+    // sideEffectAwareness: 1,
+    // procrastination: 1,
+    // gamingCost: 20000
   })
 
   const predicateValid = computed(() => {

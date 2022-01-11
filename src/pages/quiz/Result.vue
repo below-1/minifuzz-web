@@ -19,7 +19,7 @@
 
             <h6 class="q-ma-none">Silahkan berkonsultasi dengan dokter</h6>
             <div class="q-my-md" v-if="avg">
-              <div class="text-h5 q-my-none">{{ avg.toFixed(2) }} %</div>
+              <div class="text-h5 q-my-none">{{ avg.toFixed(2) }}</div>
             </div>
 
             <!-- <h6 class="q-ma-none">Silahkan berkonsultasi dengan dokter</h6>
@@ -94,8 +94,6 @@
 
   const avg = computed(() => {
     const frs = results.value
-    console.log('frs=')
-    console.log(frs)
     if (!frs.length) return null;
     const total = frs
       .map(it => parseFloat(it.confidence))

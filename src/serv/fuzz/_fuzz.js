@@ -1,3 +1,12 @@
+const ANS = [
+    "Salience",
+    "Euphoria",
+    "Tolerance",
+    "Withdrawal",
+    "Relapse and Reinstatement",
+    "Conflict"
+]
+
 const CONS = [0, 1, 2, 3, 4, 5];
 export function Triangle(a, b, c) {
     return (x) => {
@@ -6,7 +15,7 @@ export function Triangle(a, b, c) {
         if (x > a && x <= b)
             return (x - a) / (b - a);
         if (x >= b && x < c)
-            return (b - x) / (c - b);
+            return (x - b) / (c - b);
         throw new Error(`x is not covered: ${x}, (${a}, ${b}, ${c})`);
     };
 }
@@ -18,13 +27,16 @@ export function ConsTriangle(a, b, c) {
             if (x > a && x < b)
                 return (x - a) / (b - a);
             if (x >= b && x < c)
-                return (b - x) / (c - b);
+                return (x - b) / (c - b);
             throw new Error(`x is not covered: ${x}, (${a}, ${b}, ${c})`);
         },
         _f: (y) => {
             const result = [(y * (b - a)) + a,
-                 b - (y * (c - b))]
+                 b + (y * (c - b))]
             return result
+        },
+        maxPoint: () => {
+            return (c + b) / 2;
         },
         _percentage: (x) => {
             return (x - a) * 1.0 / (b - a);
@@ -64,7 +76,10 @@ export function ConstRightTrap(a, b) {
             return [
                 (y * (b - a)) + a
             ];
-        }
+        },
+        maxPoint: () => {
+            return b;
+        },
     };
 }
 export function LeftTrap(a, b) {
@@ -173,6 +188,7 @@ export function ruleStrength(predicate, input) {
     // possible INFINITY
     // return vals.filter(v => v > 0).reduce((a, b) => a + b) / vals.length
     return Math.min(...vals.filter(v => v > 0));
+    // return Math.min(...vals)
 }
 export function imply(rules, input) {
     let group = new Map();
@@ -189,7 +205,7 @@ export function imply(rules, input) {
             return result;
         })
         let strength = ruleStrength(r.predicate, input);
-        console.log(`P(${r.predicate}), ${vals} -> ${strength}`)
+        console.log(`P(${r.predicate}) ${ANS[r.consequence]}, ${vals} -> ${strength}`)
         const ruleInfo = Object.assign(Object.assign({}, r), { strength });
         if (!isFinite(strength)) {
             return;
@@ -199,8 +215,8 @@ export function imply(rules, input) {
             group.set(ruleInfo.consequence, ruleInfo);
         }
     });
-    console.log('group')
-    console.log(group)
+    // console.log('group')
+    // console.log(group)
     const filtered = Array.from(group.entries())
         .map(pair => pair[1])
         .filter(ri => ri !== null);
@@ -208,18 +224,18 @@ export function imply(rules, input) {
 }
 export function calcConfidence(ri, maxStrength) {
     const consequence = ri.consequence;
+
     const xs = consMeta[consequence]._f(maxStrength);
+    const maxPoint = consMeta[consequence].maxPoint();
     // console.log(`consequence: ${ri.consequence}`)
     // console.log(xs)
     const midPoint = xs.reduce((a, b) => a + b, 0) / xs.length;
     // const conf = consMeta[consequence]._percentage(midPoint)
-    // console.log('midPoint = ', midPoint)
-    // console.log(midPoint)
-    const result = consMeta[consequence].f(midPoint);
-    console.log('result')
-    console.log(result)
+    // const result = consMeta[consequence].f(midPoint);
     return {
-        confidence: result * 100,
+        // confidence: result * 100,
+        // confidence: (midPoint / maxPoint) * 100,
+        confidence: midPoint,
         consequence
     };
 }
@@ -229,6 +245,8 @@ export function defuzz(ruleInfos) {
         throw new Error('EMPTY_RULE_INFOS');
     }
     const maxStrength = Math.max(...ruleInfos.map(ri => ri.strength));
-    const rounded = parseFloat(maxStrength.toPrecision(2))
-    return ruleInfos.map(ruleInfo => calcConfidence(ruleInfo, rounded));
+    console.log(`maxStrength = ${maxStrength}`)
+    console.log('ruleInfos')
+    console.log(ruleInfos)
+    return ruleInfos.map(ruleInfo => calcConfidence(ruleInfo, ruleInfo.strength));
 }
